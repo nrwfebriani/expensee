@@ -69,9 +69,6 @@ namespace expensee
             this.label11 = new System.Windows.Forms.Label();
             this.panel14 = new System.Windows.Forms.Panel();
             this.label13 = new System.Windows.Forms.Label();
-            this.panel15 = new System.Windows.Forms.Panel();
-            this.label15 = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
             this.chkMed = new System.Windows.Forms.CheckBox();
             this.label12 = new System.Windows.Forms.Label();
             this.panel16 = new System.Windows.Forms.Panel();
@@ -85,6 +82,7 @@ namespace expensee
             this.label17 = new System.Windows.Forms.Label();
             this.btnExit = new System.Windows.Forms.Button();
             this.btnRefresh = new System.Windows.Forms.Button();
+            this.btnDelete = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -98,7 +96,6 @@ namespace expensee
             this.panel11.SuspendLayout();
             this.panel12.SuspendLayout();
             this.panel14.SuspendLayout();
-            this.panel15.SuspendLayout();
             this.panel16.SuspendLayout();
             this.panel17.SuspendLayout();
             this.panel18.SuspendLayout();
@@ -159,16 +156,16 @@ namespace expensee
             this.panel2.Controls.Add(this.chkFB);
             this.panel2.Controls.Add(this.chkEnt);
             this.panel2.Controls.Add(this.chkEdu);
-            this.panel2.Location = new System.Drawing.Point(12, 183);
+            this.panel2.Location = new System.Drawing.Point(12, 345);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(576, 128);
+            this.panel2.Size = new System.Drawing.Size(521, 128);
             this.panel2.TabIndex = 1;
             // 
             // chkOthers
             // 
             this.chkOthers.AutoSize = true;
             this.chkOthers.Font = new System.Drawing.Font("Futura Md BT", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.chkOthers.Location = new System.Drawing.Point(383, 88);
+            this.chkOthers.Location = new System.Drawing.Point(350, 88);
             this.chkOthers.Name = "chkOthers";
             this.chkOthers.Size = new System.Drawing.Size(91, 28);
             this.chkOthers.TabIndex = 16;
@@ -180,7 +177,7 @@ namespace expensee
             // 
             this.chkBills.AutoSize = true;
             this.chkBills.Font = new System.Drawing.Font("Futura Md BT", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.chkBills.Location = new System.Drawing.Point(383, 45);
+            this.chkBills.Location = new System.Drawing.Point(350, 45);
             this.chkBills.Name = "chkBills";
             this.chkBills.Size = new System.Drawing.Size(65, 28);
             this.chkBills.TabIndex = 16;
@@ -192,7 +189,7 @@ namespace expensee
             // 
             this.chkTrans.AutoSize = true;
             this.chkTrans.Font = new System.Drawing.Font("Futura Md BT", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.chkTrans.Location = new System.Drawing.Point(383, 11);
+            this.chkTrans.Location = new System.Drawing.Point(350, 11);
             this.chkTrans.Name = "chkTrans";
             this.chkTrans.Size = new System.Drawing.Size(163, 28);
             this.chkTrans.TabIndex = 16;
@@ -277,7 +274,7 @@ namespace expensee
             // panel3
             // 
             this.panel3.Controls.Add(this.label2);
-            this.panel3.Location = new System.Drawing.Point(12, 118);
+            this.panel3.Location = new System.Drawing.Point(12, 280);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(235, 59);
             this.panel3.TabIndex = 2;
@@ -297,7 +294,7 @@ namespace expensee
             this.panel4.Controls.Add(this.label5);
             this.panel4.Controls.Add(this.label4);
             this.panel4.Controls.Add(this.label3);
-            this.panel4.Location = new System.Drawing.Point(608, 119);
+            this.panel4.Location = new System.Drawing.Point(12, 131);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(96, 57);
             this.panel4.TabIndex = 0;
@@ -339,7 +336,7 @@ namespace expensee
             // 
             this.panel5.Controls.Add(this.txtTitle);
             this.panel5.Controls.Add(this.panel13);
-            this.panel5.Location = new System.Drawing.Point(610, 182);
+            this.panel5.Location = new System.Drawing.Point(14, 194);
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(352, 57);
             this.panel5.TabIndex = 3;
@@ -362,7 +359,7 @@ namespace expensee
             // panel6
             // 
             this.panel6.Controls.Add(this.label7);
-            this.panel6.Location = new System.Drawing.Point(608, 311);
+            this.panel6.Location = new System.Drawing.Point(553, 131);
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(134, 58);
             this.panel6.TabIndex = 1;
@@ -383,7 +380,7 @@ namespace expensee
             // 
             this.panel7.Controls.Add(this.label8);
             this.panel7.Controls.Add(this.txtExpense);
-            this.panel7.Location = new System.Drawing.Point(608, 375);
+            this.panel7.Location = new System.Drawing.Point(553, 195);
             this.panel7.Name = "panel7";
             this.panel7.Size = new System.Drawing.Size(352, 58);
             this.panel7.TabIndex = 4;
@@ -411,7 +408,7 @@ namespace expensee
             // panel8
             // 
             this.panel8.Controls.Add(this.label9);
-            this.panel8.Location = new System.Drawing.Point(608, 508);
+            this.panel8.Location = new System.Drawing.Point(12, 499);
             this.panel8.Name = "panel8";
             this.panel8.Size = new System.Drawing.Size(96, 54);
             this.panel8.TabIndex = 2;
@@ -430,7 +427,7 @@ namespace expensee
             // panel9
             // 
             this.panel9.Controls.Add(this.date);
-            this.panel9.Location = new System.Drawing.Point(608, 568);
+            this.panel9.Location = new System.Drawing.Point(12, 559);
             this.panel9.Name = "panel9";
             this.panel9.Size = new System.Drawing.Size(261, 53);
             this.panel9.TabIndex = 5;
@@ -450,7 +447,7 @@ namespace expensee
             // panel10
             // 
             this.panel10.Controls.Add(this.label10);
-            this.panel10.Location = new System.Drawing.Point(12, 327);
+            this.panel10.Location = new System.Drawing.Point(553, 280);
             this.panel10.Name = "panel10";
             this.panel10.Size = new System.Drawing.Size(129, 58);
             this.panel10.TabIndex = 3;
@@ -469,9 +466,9 @@ namespace expensee
             // panel11
             // 
             this.panel11.Controls.Add(this.txtNotes);
-            this.panel11.Location = new System.Drawing.Point(12, 396);
+            this.panel11.Location = new System.Drawing.Point(553, 349);
             this.panel11.Name = "panel11";
-            this.panel11.Size = new System.Drawing.Size(576, 236);
+            this.panel11.Size = new System.Drawing.Size(356, 236);
             this.panel11.TabIndex = 6;
             // 
             // txtNotes
@@ -480,7 +477,7 @@ namespace expensee
             this.txtNotes.Multiline = true;
             this.txtNotes.Name = "txtNotes";
             this.txtNotes.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtNotes.Size = new System.Drawing.Size(548, 201);
+            this.txtNotes.Size = new System.Drawing.Size(321, 201);
             this.txtNotes.TabIndex = 0;
             // 
             // panel12
@@ -520,43 +517,11 @@ namespace expensee
             this.label13.Text = "Total Expenses:";
             this.label13.Click += new System.EventHandler(this.label13_Click);
             // 
-            // panel15
-            // 
-            this.panel15.Controls.Add(this.label15);
-            this.panel15.Controls.Add(this.label14);
-            this.panel15.Location = new System.Drawing.Point(0, 448);
-            this.panel15.Name = "panel15";
-            this.panel15.Size = new System.Drawing.Size(359, 66);
-            this.panel15.TabIndex = 8;
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.label15.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label15.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label15.Location = new System.Drawing.Point(97, 16);
-            this.label15.MinimumSize = new System.Drawing.Size(250, 10);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(250, 30);
-            this.label15.TabIndex = 18;
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label14.Location = new System.Drawing.Point(12, 7);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(59, 37);
-            this.label14.TabIndex = 17;
-            this.label14.Text = "IDR";
-            this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // chkMed
             // 
             this.chkMed.AutoSize = true;
             this.chkMed.Font = new System.Drawing.Font("Futura Md BT", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.chkMed.Location = new System.Drawing.Point(225, 271);
+            this.chkMed.Location = new System.Drawing.Point(225, 433);
             this.chkMed.Name = "chkMed";
             this.chkMed.Size = new System.Drawing.Size(130, 28);
             this.chkMed.TabIndex = 13;
@@ -579,10 +544,9 @@ namespace expensee
             // 
             this.panel16.Controls.Add(this.rtbExpenses);
             this.panel16.Controls.Add(this.panel14);
-            this.panel16.Controls.Add(this.panel15);
             this.panel16.Location = new System.Drawing.Point(968, 170);
             this.panel16.Name = "panel16";
-            this.panel16.Size = new System.Drawing.Size(346, 392);
+            this.panel16.Size = new System.Drawing.Size(346, 303);
             this.panel16.TabIndex = 17;
             // 
             // rtbExpenses
@@ -590,7 +554,7 @@ namespace expensee
             this.rtbExpenses.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.rtbExpenses.Location = new System.Drawing.Point(13, 12);
             this.rtbExpenses.Name = "rtbExpenses";
-            this.rtbExpenses.Size = new System.Drawing.Size(324, 371);
+            this.rtbExpenses.Size = new System.Drawing.Size(324, 271);
             this.rtbExpenses.TabIndex = 9;
             this.rtbExpenses.Text = "";
             // 
@@ -621,7 +585,7 @@ namespace expensee
             // panel17
             // 
             this.panel17.Controls.Add(this.label16);
-            this.panel17.Location = new System.Drawing.Point(968, 564);
+            this.panel17.Location = new System.Drawing.Point(968, 495);
             this.panel17.Name = "panel17";
             this.panel17.Size = new System.Drawing.Size(228, 58);
             this.panel17.TabIndex = 20;
@@ -641,7 +605,7 @@ namespace expensee
             // 
             this.panel18.Controls.Add(this.lblTotal);
             this.panel18.Controls.Add(this.label17);
-            this.panel18.Location = new System.Drawing.Point(968, 628);
+            this.panel18.Location = new System.Drawing.Point(968, 559);
             this.panel18.Name = "panel18";
             this.panel18.Size = new System.Drawing.Size(352, 58);
             this.panel18.TabIndex = 21;
@@ -693,11 +657,24 @@ namespace expensee
             this.btnRefresh.UseVisualStyleBackColor = true;
             this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
+            // btnDelete
+            // 
+            this.btnDelete.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnDelete.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnDelete.Location = new System.Drawing.Point(333, 643);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(166, 41);
+            this.btnDelete.TabIndex = 24;
+            this.btnDelete.Text = "Delete an Entry";
+            this.btnDelete.UseVisualStyleBackColor = false;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            // 
             // ExpenseTrackerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1352, 691);
+            this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.btnRefresh);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.panel18);
@@ -747,8 +724,6 @@ namespace expensee
             this.panel12.PerformLayout();
             this.panel14.ResumeLayout(false);
             this.panel14.PerformLayout();
-            this.panel15.ResumeLayout(false);
-            this.panel15.PerformLayout();
             this.panel16.ResumeLayout(false);
             this.panel17.ResumeLayout(false);
             this.panel17.PerformLayout();
@@ -776,7 +751,6 @@ namespace expensee
         private System.Windows.Forms.Panel panel12;
         private System.Windows.Forms.Panel panel13;
         private System.Windows.Forms.Panel panel14;
-        private System.Windows.Forms.Panel panel15;
         private System.Windows.Forms.CheckBox chkGift;
         private System.Windows.Forms.CheckBox chkFB;
         private System.Windows.Forms.CheckBox chkEnt;
@@ -802,9 +776,7 @@ namespace expensee
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Panel panel16;
-        private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnReset;
         private System.Windows.Forms.Panel panel17;
@@ -817,6 +789,7 @@ namespace expensee
         private System.Windows.Forms.RichTextBox rtbExpenses;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Button btnDelete;
     }
 }
 

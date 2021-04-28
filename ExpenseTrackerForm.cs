@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using System.Data.SqlClient;
+using System.Data;
+using System.Globalization;
 
 namespace expensee
 {
@@ -10,6 +13,44 @@ namespace expensee
         public static List<string> Entries = new List<string>();
         public string dateRec = DateTime.Now.ToString("dd-MM-yyyy");
         public Int32 total = 0;
+
+        public void GetData()
+        {
+            string strConnect = @"Database=ExpenseeDB;Data Source=NRWFEBRIANI;Initial Catalog=ExpenseeDB;Integrated Security=True";
+            SqlConnection conn = new SqlConnection(strConnect);
+            conn.Open();
+            string CommandText, Output = "";
+            CommandText = "SELECT ID,Title,Category,Expense,Date,Notes FROM Entries";
+            SqlCommand command = new SqlCommand(CommandText, conn);       
+            SqlDataReader dataReader = command.ExecuteReader();
+                    
+            while (dataReader.Read())
+            {
+                Output = Output + dataReader.GetValue(0) + ". " + "Title: " + dataReader.GetValue(1) + "\n" + "Category: " + dataReader.GetValue(2) + "\n" + "Expense: " + dataReader.GetValue(3) + "\n" + "Date: " + dataReader.GetValue(4) + "\n" + "Notes: " + dataReader.GetValue(5) + "\n\n";
+            }
+            rtbExpenses.Text = Output;
+            dataReader.Close();
+            command.Dispose();
+            conn.Close();
+        }
+
+        public void DeleteData(string EnterID)
+        {
+            string strConnect = @"Database=ExpenseeDB;Data Source=NRWFEBRIANI;Initial Catalog=ExpenseeDB;Integrated Security=True";
+            SqlConnection conn = new SqlConnection(strConnect);
+            conn.Open();
+            String Command = "Delete Entries where ID=" + EnterID;
+            SqlDataAdapter adapter = new SqlDataAdapter();
+            SqlCommand commands = new SqlCommand(Command, conn);
+
+            adapter.DeleteCommand = new SqlCommand(Command, conn);
+            adapter.DeleteCommand.ExecuteNonQuery();
+            
+            commands.Dispose();
+            conn.Close();
+
+            GetData();
+        }
 
         public ExpenseTrackerForm()
         {
@@ -65,7 +106,7 @@ namespace expensee
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            GetData();
         }
 
         private void label13_Click(object sender, EventArgs e)
@@ -233,16 +274,13 @@ namespace expensee
 
         private void btnRefresh_Click(object sender, EventArgs e)
         {
+            GetData();
 
-            string combinedEntries = string.Join("\n", Entries);
+            Refresher();
+        }
 
-            Int32 expenseP = Convert.ToInt32(txtExpense.Text);
-            Int32 temp = expenseP;
-            total = total + temp;
-            lblTotal.Text = Convert.ToString(total);
-
-            rtbExpenses.AppendText(combinedEntries);
-
+        public void Refresher()
+        {
             txtExpense.Text = "0";
             txtNotes.Text = "";
             txtTitle.Text = "";
@@ -265,17 +303,34 @@ namespace expensee
 
             string categoryX = Convert.ToString(entry.category);
 
+            DataSet1TableAdapters.EntriesTableAdapter ada = new DataSet1TableAdapters.EntriesTableAdapter();
+            ada.AddEntry(txtTitle.Text, categoryX, txtExpense.Text, dateRec, txtNotes.Text);
+
             Entries.Add("Title: " + txtTitle.Text);
             Entries.Add("Category: " + categoryX);
             Entries.Add("Expense: Rp" + txtExpense.Text);
             Entries.Add("Date: " + dateRec);
             Entries.Add("Notes: " + txtNotes.Text + "\n");
 
+            MessageBox.Show("Entry saved!");
+            GetData();
+            Refresher();
         }
 
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
             dateRec = date.Value.ToString("dd-MM-yyyy");
+        }
+
+        private void label9_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            DeleteEntryForm delForm = new DeleteEntryForm();
+            delForm.Show();
         }
     }
 }
