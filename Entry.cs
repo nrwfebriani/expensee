@@ -8,7 +8,6 @@ namespace expensee
         public string title { get; set; }
         public string notes { get; set; }
         public Int32 expense { get; set; }
-        public string date { get; set; }
-
+        public DateTime date { get; set; }
     }
 }

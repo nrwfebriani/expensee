@@ -7,6 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="DeleteEntryForm.cs" />
+    <Compile Remove="DeleteEntryForm.Designer.cs" />
+    <Compile Remove="ViewAllForm.cs" />
+    <Compile Remove="ViewAllForm.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="DeleteEntryForm.resx" />
+    <EmbeddedResource Remove="ViewAllForm.resx" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.78" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
   </ItemGroup>

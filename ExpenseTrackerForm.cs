@@ -1,336 +1,250 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.Data;
-using System.Globalization;
 
 namespace expensee
 {
     public partial class ExpenseTrackerForm : Form
     {
         Entry entry = new Entry();
-        public static List<string> Entries = new List<string>();
-        public string dateRec = DateTime.Now.ToString("dd-MM-yyyy");
-        public Int32 total = 0;
-
-        public void GetData()
-        {
-            string strConnect = @"Database=ExpenseeDB;Data Source=NRWFEBRIANI;Initial Catalog=ExpenseeDB;Integrated Security=True";
-            SqlConnection conn = new SqlConnection(strConnect);
-            conn.Open();
-            string CommandText, Output = "";
-            CommandText = "SELECT ID,Title,Category,Expense,Date,Notes FROM Entries";
-            SqlCommand command = new SqlCommand(CommandText, conn);       
-            SqlDataReader dataReader = command.ExecuteReader();
-                    
-            while (dataReader.Read())
-            {
-                Output = Output + dataReader.GetValue(0) + ". " + "Title: " + dataReader.GetValue(1) + "\n" + "Category: " + dataReader.GetValue(2) + "\n" + "Expense: " + dataReader.GetValue(3) + "\n" + "Date: " + dataReader.GetValue(4) + "\n" + "Notes: " + dataReader.GetValue(5) + "\n\n";
-            }
-            rtbExpenses.Text = Output;
-            dataReader.Close();
-            command.Dispose();
-            conn.Close();
-        }
-
-        public void DeleteData(string EnterID)
-        {
-            string strConnect = @"Database=ExpenseeDB;Data Source=NRWFEBRIANI;Initial Catalog=ExpenseeDB;Integrated Security=True";
-            SqlConnection conn = new SqlConnection(strConnect);
-            conn.Open();
-            String Command = "Delete Entries where ID=" + EnterID;
-            SqlDataAdapter adapter = new SqlDataAdapter();
-            SqlCommand commands = new SqlCommand(Command, conn);
-
-            adapter.DeleteCommand = new SqlCommand(Command, conn);
-            adapter.DeleteCommand.ExecuteNonQuery();
-            
-            commands.Dispose();
-            conn.Close();
-
-            GetData();
-        }
+        Int32 expense, ID = 0;
+        SqlConnection conn = new SqlConnection(@"Database=ExpenseeDB;Data Source=NRWFEBRIANI;Initial Catalog=ExpenseeDB;Integrated Security=True");
+        SqlCommand command;
+        DateTime dateRec = DateTime.Now;
 
         public ExpenseTrackerForm()
         {
             InitializeComponent();
         }
 
-        private void label1_Click(object sender, EventArgs e)
+        private void ExpenseTrackerForm_Load(object sender, EventArgs e)
         {
-
+            Load_Table();
+            btnUpdate.Hide();
         }
 
-        private void checkBox4_CheckedChanged(object sender, EventArgs e)
+        private void Load_Table()
         {
-            if (chkGift.Checked == true)
-            {
-                chkBills.Checked = false;
-                chkEnt.Checked = false;
-                chkFB.Checked = false;
-                chkEdu.Checked = false;
-                chkGroceries.Checked = false;
-                chkMed.Checked = false;
-                chkTrans.Checked = false;
-                chkOthers.Checked = false;
-                entry.category = "Gift";
-            }
+            conn.Open();
+            command = new SqlCommand("SELECT * FROM Entries", conn);
+            SqlDataAdapter sda = new SqlDataAdapter();
+            sda.SelectCommand = command;
+            DataTable dbtable = new DataTable();
+            sda.Fill(dbtable);
+            BindingSource bSource = new BindingSource();
+
+            bSource.DataSource = dbtable;
+            dgvTable.DataSource = bSource;
+            sda.Update(dbtable);
+            conn.Close();
         }
 
-        private void checkBox5_CheckedChanged(object sender, EventArgs e)
+        private void Load_Search()
         {
-            if (chkGroceries.Checked == true)
-            {
-                chkBills.Checked = false;
-                chkEnt.Checked = false;
-                chkFB.Checked = false;
-                chkGift.Checked = false;
-                chkEdu.Checked = false;
-                chkMed.Checked = false;
-                chkTrans.Checked = false;
-                chkOthers.Checked = false;
-                entry.category = "Groceries";
-            }
-        }
+            conn.Open();
+            command = new SqlCommand("SELECT * FROM Entries WHERE Title=@search", conn);
+            command.Parameters.Add(new SqlParameter("@search", txtSearch.Text));
+            SqlDataAdapter sda = new SqlDataAdapter();
+            sda.SelectCommand = command;
+            DataTable dbTable = new DataTable();
+            sda.Fill(dbTable);
+            BindingSource bSource = new BindingSource();
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void panel6_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            GetData();
-        }
-
-        private void label13_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void checkBox2_CheckedChanged(object sender, EventArgs e)
-        {
-            if (chkEnt.Checked == true)
-            {
-                chkBills.Checked = false;
-                chkEdu.Checked = false;
-                chkFB.Checked = false;
-                chkGift.Checked = false;
-                chkGroceries.Checked = false;
-                chkMed.Checked = false;
-                chkTrans.Checked = false;
-                chkOthers.Checked = false;
-                entry.category = "Entertainment";
-            }
+            bSource.DataSource = dbTable;
+            dgvTable.DataSource = bSource;
+            sda.Update(dbTable);
+            conn.Close();
         }
 
         private void btnReset_Click(object sender, EventArgs e)
         {
+            ResetForm();
+            txtSearch.Text = "";
+            Load_Table();
+            btnUpdate.Hide();
+            btnSave.Show();
+        }
+
+        private void ResetForm()
+        {
+            ID = 0;
             txtExpense.Text = "0";
             txtNotes.Text = "";
             txtTitle.Text = "";
-            chkEdu.Checked = false;
-            chkBills.Checked = false;
-            chkEnt.Checked = false;
-            chkFB.Checked = false;
-            chkGift.Checked = false;
-            chkGroceries.Checked = false;
-            chkMed.Checked = false;
-            chkTrans.Checked = false;
-            chkOthers.Checked = false;
-            lblTotal.Text = "0";
-            rtbExpenses.Text = "";
-
-        }
+            rbEdu.Checked = false;
+            rbBills.Checked = false;
+            rbEnt.Checked = false;
+            rbFnB.Checked = false;
+            rbGift.Checked = false;
+            rbGroceries.Checked = false;
+            rbMed.Checked = false;
+            rbTrans.Checked = false;
+            rbOthers.Checked = false;
+            dtpDate.Value = DateTime.Now;
+    }
 
         private void btnExit_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
 
-        private void chkEdu_CheckedChanged(object sender, EventArgs e)
-        {
-            if (chkEdu.Checked == true)
-            {
-                chkBills.Checked = false;
-                chkEnt.Checked = false;
-                chkFB.Checked = false;
-                chkGift.Checked = false;
-                chkGroceries.Checked = false;
-                chkMed.Checked = false;
-                chkTrans.Checked = false;
-                chkOthers.Checked = false;
-                entry.category = "Education";
-            }
-        }
-
-        private void chkFB_CheckedChanged(object sender, EventArgs e)
-        {
-            if (chkFB.Checked == true)
-            {
-                chkBills.Checked = false;
-                chkEnt.Checked = false;
-                chkEdu.Checked = false;
-                chkGift.Checked = false;
-                chkGroceries.Checked = false;
-                chkMed.Checked = false;
-                chkTrans.Checked = false;
-                chkOthers.Checked = false;
-                entry.category = "Food-Beverages";
-            }
-        }
-
-        private void chkMed_CheckedChanged(object sender, EventArgs e)
-        {
-            if (chkMed.Checked == true)
-            {
-                chkBills.Checked = false;
-                chkEnt.Checked = false;
-                chkFB.Checked = false;
-                chkGift.Checked = false;
-                chkGroceries.Checked = false;
-                chkEdu.Checked = false;
-                chkTrans.Checked = false;
-                chkOthers.Checked = false;
-                entry.category = "Medications";
-            }
-        }
-
-        private void chkTrans_CheckedChanged(object sender, EventArgs e)
-        {
-            if (chkTrans.Checked == true)
-            {
-                chkBills.Checked = false;
-                chkEnt.Checked = false;
-                chkFB.Checked = false;
-                chkGift.Checked = false;
-                chkGroceries.Checked = false;
-                chkMed.Checked = false;
-                chkEdu.Checked = false;
-                chkOthers.Checked = false;
-                entry.category = "Transportation";
-            }
-        }
-
-        private void chkBills_CheckedChanged(object sender, EventArgs e)
-        {
-            if (chkBills.Checked == true)
-            {
-                chkEdu.Checked = false;
-                chkEnt.Checked = false;
-                chkFB.Checked = false;
-                chkGift.Checked = false;
-                chkGroceries.Checked = false;
-                chkMed.Checked = false;
-                chkTrans.Checked = false;
-                chkOthers.Checked = false;
-                entry.category = "Bills";
-            }
-
-        }
-
-        private void chkOthers_CheckedChanged(object sender, EventArgs e)
-        {
-            if (chkOthers.Checked == true)
-            {
-                chkBills.Checked = false;
-                chkEnt.Checked = false;
-                chkFB.Checked = false;
-                chkGift.Checked = false;
-                chkGroceries.Checked = false;
-                chkMed.Checked = false;
-                chkTrans.Checked = false;
-                chkEdu.Checked = false;
-                entry.category = "Others";
-            }
-        }
-
-        private void lstExpenses_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void txtExpense_TextChanged(object sender, EventArgs e)
         {
-            if (System.Text.RegularExpressions.Regex.IsMatch(txtExpense.Text, "[^0-9]"))
+            expense = Convert.ToInt32(txtExpense.Text);
+        }
+
+        private void GetCategory(RadioButton rb)
+        {
+            if (rb.Checked)
             {
-                txtExpense.Text = "";
+                entry.category = rb.Text;
             }
         }
 
-        private void txtExpense_DoubleClick(object sender, EventArgs e)
+        private void GetCategory2()
         {
-            if (System.Text.RegularExpressions.Regex.IsMatch(txtExpense.Text, "[^0-9]"))
+            GetCategory(rbEnt);
+            GetCategory(rbEdu);
+            GetCategory(rbFnB);
+            GetCategory(rbMed);
+            GetCategory(rbOthers);
+            GetCategory(rbBills);
+            GetCategory(rbGift);
+            GetCategory(rbGroceries);
+            GetCategory(rbTrans);
+        }
+
+        private void CheckCategory(RadioButton rb)
+        {
+            if (entry.category == rb.Text)
             {
-                txtExpense.Text = "";
+                rb.Checked = true;
             }
-        }
+        }        
 
-        private void btnRefresh_Click(object sender, EventArgs e)
+        private void CheckCategory2()
         {
-            GetData();
-
-            Refresher();
-        }
-
-        public void Refresher()
-        {
-            txtExpense.Text = "0";
-            txtNotes.Text = "";
-            txtTitle.Text = "";
-            chkEdu.Checked = false;
-            chkBills.Checked = false;
-            chkEnt.Checked = false;
-            chkFB.Checked = false;
-            chkGift.Checked = false;
-            chkGroceries.Checked = false;
-            chkMed.Checked = false;
-            chkTrans.Checked = false;
-            chkOthers.Checked = false;
-            txtExpense.Text = "";
+            CheckCategory(rbEnt);
+            CheckCategory(rbEdu);
+            CheckCategory(rbFnB);
+            CheckCategory(rbMed);
+            CheckCategory(rbOthers);
+            CheckCategory(rbBills);
+            CheckCategory(rbGift);
+            CheckCategory(rbGroceries);
+            CheckCategory(rbTrans);
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            rtbExpenses.Clear();
-            lblTotal.ResetText();
+            entry.title = txtTitle.Text;
+            entry.date = dateRec;
+            entry.expense = expense;
+            entry.notes = txtNotes.Text;
 
-            string categoryX = Convert.ToString(entry.category);
+            GetCategory2();
 
-            DataSet1TableAdapters.EntriesTableAdapter ada = new DataSet1TableAdapters.EntriesTableAdapter();
-            ada.AddEntry(txtTitle.Text, categoryX, txtExpense.Text, dateRec, txtNotes.Text);
+            conn.Open();
+            SqlCommand command = new SqlCommand("INSERT INTO Entries(Title, Category, Expense, Date, Notes) VALUES(@Title, @Category, @Expense, @Date, @Notes)", conn);
 
-            Entries.Add("Title: " + txtTitle.Text);
-            Entries.Add("Category: " + categoryX);
-            Entries.Add("Expense: Rp" + txtExpense.Text);
-            Entries.Add("Date: " + dateRec);
-            Entries.Add("Notes: " + txtNotes.Text + "\n");
+            command.Parameters.AddWithValue("@Title", txtTitle.Text);
+            command.Parameters.AddWithValue("@Category", entry.category);
+            command.Parameters.AddWithValue("@Expense", expense);
+            command.Parameters.AddWithValue("@Date", dateRec);
+            command.Parameters.AddWithValue("@Notes", txtNotes.Text);
+            command.ExecuteNonQuery();
+            conn.Close();
 
             MessageBox.Show("Entry saved!");
-            GetData();
-            Refresher();
+            ResetForm();
+            Load_Table();
         }
 
-        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        private void dtpDate_ValueChanged(object sender, EventArgs e)
         {
-            dateRec = date.Value.ToString("dd-MM-yyyy");
+            dateRec = dtpDate.Value;
         }
 
-        private void label9_Click(object sender, EventArgs e)
+        private void btnSearch_Click(object sender, EventArgs e)
         {
+            Load_Search();
+        }
 
+        private void btnUpdate_Click(object sender, EventArgs e)
+        {
+            if(txtTitle.Text != "" && ID != 0)
+            {
+                DialogResult dr = MessageBox.Show("Save changes?", "Message", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Information);
+                if (dr == DialogResult.Yes)
+                {
+                    command = new SqlCommand("UPDATE Entries SET Title = @Title, Category = @Category, Expense = @Expense, Date = @Date, Notes = @Notes WHERE ID = @ID", conn);
+                    conn.Open();
+                    command.Parameters.AddWithValue("@Title", txtTitle.Text);
+                    command.Parameters.AddWithValue("@Category", entry.category);
+                    command.Parameters.AddWithValue("@Expense", expense);
+                    command.Parameters.AddWithValue("@Date", dateRec);
+                    command.Parameters.AddWithValue("@Notes", txtNotes.Text);
+                    command.Parameters.AddWithValue("@ID", ID);
+                    command.ExecuteNonQuery();
+                    MessageBox.Show("Entry updated!");
+                    conn.Close();
+                    Load_Table();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Select a valid entry to update.");
+            }
+        }
+
+        private void btnRefresher2_Click(object sender, EventArgs e)
+        {
+            ResetForm();
+            txtSearch.Text = "";
+            Load_Table();
+            btnUpdate.Hide();
+            btnSave.Show();
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            DeleteEntryForm delForm = new DeleteEntryForm();
-            delForm.Show();
+            if (txtTitle.Text != "" && ID != 0)
+            {
+                DialogResult dr = MessageBox.Show("Delete entry?", "Message", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Information);
+                if (dr == DialogResult.Yes)
+                {
+                    command = new SqlCommand("DELETE Entries WHERE ID=@id", conn);
+                    conn.Open();
+                    command.Parameters.AddWithValue("@ID", ID);
+                    command.ExecuteNonQuery();
+                    conn.Close();
+                    MessageBox.Show("Entry deleted.");
+                    Load_Table();
+                    ResetForm();
+                    txtSearch.Text = "";
+                }
+            }
+            else
+            {
+                MessageBox.Show("Select a valid entry to delete.");
+            }
+        }
+
+        private void dgvTable_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            btnSave.Hide();
+            btnUpdate.Show();
+            if (dgvTable.Rows[e.RowIndex].Cells[1].Value.ToString() != "")
+            {
+                ID = Convert.ToInt32(dgvTable.Rows[e.RowIndex].Cells[0].Value.ToString());
+                txtTitle.Text = dgvTable.Rows[e.RowIndex].Cells[1].Value.ToString();
+                entry.category = dgvTable.Rows[e.RowIndex].Cells[2].Value.ToString();
+                CheckCategory2();
+                txtExpense.Text = dgvTable.Rows[e.RowIndex].Cells[3].Value.ToString();
+                dtpDate.Value = (DateTime)dgvTable.Rows[e.RowIndex].Cells[4].Value;
+                txtNotes.Text = dgvTable.Rows[e.RowIndex].Cells[5].Value.ToString();
+            }
         }
     }
 }
