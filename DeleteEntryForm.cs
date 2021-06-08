@@ -33,5 +33,10 @@ namespace expensee
             mainForm.GetData();
             this.Hide();
         }
+
+        private void numID_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
